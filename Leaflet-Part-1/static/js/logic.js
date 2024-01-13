@@ -21,16 +21,9 @@ d3.json(geoData).then(function (response) {
 
   // Loop through the GeoJSON data and add circles with color
   for (let i = 0; i < data.length; i++) {
-    //let lon = data[i].geometry.coordinates[0];
-    //let lat = data[i].geometry.coordinates[1];
-    //let depth = data[i].geometry.coordinates[2];
 
     let [lon, lat, depth] = data[i].geometry.coordinates;
-
     let magnitude = data[i].properties.mag;
-
-    // Get color based on depth
-    // let color = colorScale[Math.floor((depth / 700) * 10)];
 
     let circle = L.circleMarker([lat, lon], {
       radius: magnitude*4,
@@ -44,10 +37,9 @@ d3.json(geoData).then(function (response) {
       weight: 1,
       opacity: 1,
       fillOpacity: 0.8
-    }).bindPopup(`<h3>${data[i].properties.place}<hr>Magnitude: ${magnitude}<br>${new Date(data[i].properties.time).toLocaleString()}</h3>`).addTo(myMap);
+    }).bindPopup(`<h3>${data[i].properties.place}<hr>Magnitude: ${magnitude}<br>Depth: ${ depth}<br>${new Date(data[i].properties.time).toLocaleString()}</h3>`).addTo(myMap);
   }
 });
-
 
 // Create a legend
 let legend = L.control({ position: 'bottomright' });
