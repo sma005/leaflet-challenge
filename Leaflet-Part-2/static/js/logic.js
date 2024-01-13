@@ -5,13 +5,31 @@ let myMap = L.map("map", {
   zoom: 3
 });
 
+let baseMaps = new L.layerGroup(); 
+
 // Adding the tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(baseMaps);
+
+L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+  //maxZoom: 20,
+  subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(baseMaps);;
+
+// Load the GeoJSON data.
+let geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+
+L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
+        //maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(baseMaps);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(myMap);
 
-// Load the GeoJSON data.
-let geoData = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+L.control.layers(baseMaps).addTo(myMap);
 
 // Define a color scale using chroma
 // Get the data with d3.
